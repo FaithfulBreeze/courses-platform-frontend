@@ -12,21 +12,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeClosed } from "lucide-react";
-import { FormEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
   FormField,
   FormItem,
-  FormLabel,
   FormControl,
   FormMessage,
   Form,
 } from "./ui/form";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
-import { AuthProvider } from "@/providers/AuthProvider";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const loginFormSchema = z.object({
   email: z.string().email(),
@@ -46,7 +45,7 @@ export function LoginForm({
     },
   });
 
-  const authContext = useContext(AuthProvider)
+  const authContext = useContext(AuthContext)
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -82,7 +81,8 @@ export function LoginForm({
     setTimeout(() => {
       toast("Redirecting to dashboard...");
       setTimeout(() => {
-        if(authContext.setUser) authContext.setUser(parsedResponse.user)
+        authContext.setUser?.(parsedResponse.user)
+        localStorage.setItem('user', JSON.stringify(parsedResponse.user))
         redirect("/dashboard");
       }, 750);
     }, 600);

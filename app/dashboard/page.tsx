@@ -1,15 +1,14 @@
 "use client"
 
+import { AuthContext } from "@/contexts/AuthContext";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
-import { AuthProvider } from "@/providers/AuthProvider";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export default function Dashboard() {
-    const authContext = useContext(AuthProvider)
-    useProtectedRoute(authContext)
-
+    const authContext = useContext(AuthContext)
+    useEffect(() => useProtectedRoute(authContext), [])
 
     return (
-        <h1>Logged!</h1>
+        <h1>Logged! {authContext.user.id}</h1>
     )
 }
