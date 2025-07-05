@@ -14,5 +14,9 @@ export const useProtectedRoute = (context: {
     >
   >;
 }) => {
-  if (!context.user.id) redirect("/auth");
+  const storedData = localStorage.getItem("user");
+  if (!storedData) redirect("/auth");
+  const user = JSON.parse(storedData);
+  if(!user.id) redirect("/auth");
+  context.setUser?.(user)
 };
