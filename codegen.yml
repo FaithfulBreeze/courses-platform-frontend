@@ -1,0 +1,21 @@
+overwrite: true
+schema:
+  - ${NEXT_PUBLIC_BACKEND_URL}/graphql
+documents:
+  - "./graphql/**/*.ts"
+generates:
+  ./types.generated.ts:
+    config:
+      avoidOptionals: true
+      maybeValue: "T"
+      skipTypename: true
+      strictScalars: true
+      scalars:
+        DateTime: string
+        Dimension: number
+        HexColor: string
+        JSON: any
+        Quality: number
+    plugins:
+      - "typescript"
+      - "typescript-operations"
