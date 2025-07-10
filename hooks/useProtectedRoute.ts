@@ -1,22 +1,6 @@
+import { IAuthContext } from "@/contexts/AuthContext";
 import { redirect } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
 
-export const useProtectedRoute = (context: {
-  user: {
-    id?: string;
-  };
-  setUser?: Dispatch<
-    SetStateAction<
-      | {
-          id?: string;
-        }
-      | undefined
-    >
-  >;
-}) => {
-  const storedData = localStorage.getItem("user");
-  if (!storedData) redirect("/auth");
-  const user = JSON.parse(storedData);
-  if(!user.id) redirect("/auth");
-  context.setUser?.(user)
+export const useProtectedRoute = (context: IAuthContext) => {
+  if (!context.user.id) redirect("/auth");
 };
