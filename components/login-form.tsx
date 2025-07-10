@@ -16,13 +16,7 @@ import { useContext, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
-  Form,
-} from "./ui/form";
+import { FormField, FormItem, FormControl, FormMessage, Form } from "./ui/form";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { AuthContext } from "@/contexts/AuthContext";
@@ -45,7 +39,7 @@ export function LoginForm({
     },
   });
 
-  const authContext = useContext(AuthContext)
+  const authContext = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -66,7 +60,7 @@ export function LoginForm({
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     const parsedResponse = await response.json();
@@ -81,8 +75,7 @@ export function LoginForm({
     setTimeout(() => {
       toast("Redirecting to dashboard...");
       setTimeout(() => {
-        authContext.setUser?.(parsedResponse.user)
-        localStorage.setItem('user', JSON.stringify(parsedResponse.user))
+        authContext.setUser(parsedResponse.user);
         redirect("/dashboard");
       }, 750);
     }, 600);
