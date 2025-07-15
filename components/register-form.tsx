@@ -21,12 +21,13 @@ import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { AuthContext } from "@/contexts/AuthContext";
 
-const loginFormSchema = z.object({
+const registerFormSchema = z.object({
   email: z.string().email(),
+  name: z.string(),
   password: z.string(),
 });
 
-export function LoginForm({
+export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -35,24 +36,24 @@ export function LoginForm({
     isLoading: false,
     body: {
       email: "",
+      name: "",
       password: "",
     },
   });
 
-  const authContext = useContext(AuthContext);
-
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       email: "",
+      name: "",
       password: "",
     },
   });
 
-  async function handleSubmit(data: z.infer<typeof loginFormSchema>) {
+  async function handleSubmit(data: z.infer<typeof registerFormSchema>) {
     setState((prev) => ({ ...prev, isLoading: true, body: data }));
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`,
       {
         body: JSON.stringify(data),
         method: "POST",
@@ -64,7 +65,7 @@ export function LoginForm({
     );
 
     const parsedResponse = await response.json();
-    if (response.status != 200) {
+    if (response.status != 201) {
       toast(parsedResponse.message);
       setState((prev) => ({ ...prev, isLoading: false }));
       return;
@@ -73,10 +74,9 @@ export function LoginForm({
     toast(parsedResponse.message);
 
     setTimeout(() => {
-      toast("Redirecting to dashboard...");
+      toast("Redirecting to login...");
       setTimeout(() => {
-        authContext.setUser(parsedResponse.user);
-        redirect("/dashboard");
+        redirect("/auth");
       }, 750);
     }, 600);
   }
@@ -85,15 +85,41 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Welcome to Courses Platform!</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Fill in the form to create your account.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
               <div className="flex flex-col gap-6">
+                <div className="grid gap-3">
+                  <div className="flex items-center">
+                    <Label htmlFor="name">Name</Label>
+                  </div>
+
+                  <FormField
+                    name="name"
+                    control={form.control}
+                    render={({ field }) => {
+                      return (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              id="name"
+                              type="name"
+                              placeholder="John Doe"
+                              required
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
                 <div className="grid gap-3">
                   <Label htmlFor="email">Email</Label>
 
@@ -121,12 +147,6 @@ export function LoginForm({
                 <div className="grid gap-3">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
-                    <a
-                      href="reset-password"
-                      className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </a>
                   </div>
 
                   <FormField
@@ -182,14 +202,14 @@ export function LoginForm({
                     type="submit"
                     className="w-full"
                   >
-                    Login
+                    register
                   </Button>
                 </div>
               </div>
               <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <a href="/register" className="underline underline-offset-4">
-                  Sign up
+                Already have an account?{" "}
+                <a href="/auth" className="underline underline-offset-4">
+                  Sign in
                 </a>
               </div>
             </form>
