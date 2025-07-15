@@ -4,6 +4,7 @@ import { fetchUserPurchasedCourses } from "@/repositories/fetchUserPurchasedCour
 import { Course } from "@/types.generated";
 import { useState, useEffect } from "react";
 import { GraphQLClient } from "graphql-request";
+import { CourseCard } from "./ui/course-card";
 
 interface IUserCourseFeedStateProps {
   userPurchasedCourses: Course[];
@@ -31,13 +32,7 @@ export function UserCoursesFeed({ userId, client }: UserCoursesFeedProps) {
   return (
     <div className="flex gap-10">
       {state?.userPurchasedCourses.map((course) => {
-        return (
-          <div>
-            <img src={course.thumbnail} />
-            <h1>{course.name}</h1>
-            <p>{course.description}</p>
-          </div>
-        );
+        return <CourseCard key={course.id} {...course} />
       })}
     </div>
   );
