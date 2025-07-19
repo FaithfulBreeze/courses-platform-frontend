@@ -1,8 +1,8 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const UserFragment = gql`
-fragment UserFields on User {
-  id
-  name
-}
-`
+  fragment UserFields on User {
+    id
+    name
+  }
+`;

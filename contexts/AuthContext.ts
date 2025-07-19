@@ -1,6 +1,6 @@
-import { User } from "@/types.generated";
-import { Dispatch, SetStateAction } from "react";
-import { createContext } from "react";
+import { User } from '@/types.generated';
+import { Dispatch, SetStateAction } from 'react';
+import { createContext } from 'react';
 
 export interface IAuthContext {
   user: Partial<User>;

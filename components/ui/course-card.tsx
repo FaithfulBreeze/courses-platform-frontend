@@ -1,5 +1,5 @@
-import { Course } from "@/types.generated";
-import { Card, CardDescription, CardHeader, CardTitle } from "./card";
+import { Course } from '@/types.generated';
+import { Card, CardDescription, CardTitle } from './card';
 
 export function CourseCard(course: Course) {
   return (
