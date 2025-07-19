@@ -1,18 +1,13 @@
+import { User } from "@/types.generated";
 import { Dispatch, SetStateAction } from "react";
 import { createContext } from "react";
 
 export interface IAuthContext {
-  user: { id?: string };
-  setUser: Dispatch<
-    SetStateAction<{
-      id: string;
-    }>
-  >;
+  user: Partial<User>;
+  setUser: Dispatch<SetStateAction<Partial<User>>>;
 }
 
 export const AuthContext = createContext<IAuthContext>({
-  user: {
-    id: "",
-  },
+  user: {},
   setUser: () => null,
 });
