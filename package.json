@@ -10,7 +10,7 @@
     "format": "prettier --write \"./**/*.{ts,tsx}\"",
     "codegen": "graphql-codegen --require dotenv/config --config codegen.yml dotenv_config_path=.env",
     "prepare": "husky",
-    "lint-prettier": "npm run lint && npm run format"
+    "lint-prettier": "npm run codegen && npm run lint && npm run format"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
