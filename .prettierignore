@@ -1,0 +1,8 @@
+dist
+.next
+node_modules
+coverage
+*.log
+.env
+types.generated.ts
+next.config.ts
