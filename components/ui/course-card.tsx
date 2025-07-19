@@ -15,14 +15,14 @@ export function CourseCard({ course, showProgress = false, progress = 0 }: ICour
           {/* Thumbnail */}
           <img
             src={course?.thumbnail || '/placeholder-course.jpg'}
-            alt={`Thumbnail for course ${course?.name}`}
+            alt={`Thumbnail for course ${course?.title}`}
             className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
           />
 
           {/* Gradient overlay behind name and icons */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-5 py-6 min-h-[80px] flex justify-between items-end z-10 rounded-b-xl">
             <h3 className="text-xl font-semibold text-white line-clamp-1 drop-shadow-md">
-              {course?.name}
+              {course?.title}
             </h3>
 
             {/* Play icon */}
