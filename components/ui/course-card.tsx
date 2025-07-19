@@ -80,11 +80,21 @@ export function CourseCard({
                 <circle cx="12" cy="12" r="10" />
                 <path d="M12 6v6l4 2" />
               </svg>
-              <span>{course?.duration || "1h 30m"}</span>
+              <span>{course?.duration || "0m"}</span>
             </div>
           </div>
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+
 
       {!showProgress && (
         <div className="absolute bottom-0 left-0 w-full h-[4px] bg-gray-800/70 rounded-b-xl overflow-hidden shadow-inner z-30">

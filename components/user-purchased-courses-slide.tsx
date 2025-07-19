@@ -57,7 +57,7 @@ export function UserPurchasedCoursesSlide({
         >
           {state?.userPurchasedCourses.map((course) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide key={course.id}>
                 <CourseCard key={course.id} course={course} />
               </SwiperSlide>
             );
