@@ -1,11 +1,12 @@
 import { gql } from 'graphql-request';
 
-export const CourseFragment = gql`
-  fragment CourseFields on Course {
+export const LessonFragment = gql`
+  fragment LessonFields on Lesson {
     id
+    url
+    thumbnail
     title
     description
-    thumbnail
     duration
   }
 `;
