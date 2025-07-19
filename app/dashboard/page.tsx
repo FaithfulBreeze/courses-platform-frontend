@@ -11,7 +11,6 @@ export default function Dashboard() {
   const { client } = useContext(ClientContext);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     useProtectedRoute(authContext);
   }, []);
 
