@@ -19,5 +19,6 @@ export const fetchUserPurchasedCourses = async ({
     GET_USER_PURCHASED_COURSES,
     { id },
   );
+
   return purchasedCourses as Course[];
 };
