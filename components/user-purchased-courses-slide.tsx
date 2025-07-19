@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { fetchUserPurchasedCourses } from "@/repositories/fetchUserPurchasedCourses";
-import { Course } from "@/types.generated";
-import { useState, useEffect } from "react";
-import { GraphQLClient } from "graphql-request";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { CourseCard } from "./ui/course-card";
-import { Navigation, Pagination } from "swiper/modules";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { fetchUserPurchasedCourses } from '@/repositories/fetchUserPurchasedCourses';
+import { Course } from '@/types.generated';
+import { useState, useEffect } from 'react';
+import { GraphQLClient } from 'graphql-request';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { CourseCard } from './ui/course-card';
+import { Navigation, Pagination } from 'swiper/modules';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 interface IUserPurchasedCoursesSlideStateProps {
   userPurchasedCourses: Course[];
@@ -21,12 +21,8 @@ interface UserPurchasedCoursesSlideProps {
   client?: GraphQLClient;
 }
 
-export function UserPurchasedCoursesSlide({
-  userId,
-  client,
-}: UserPurchasedCoursesSlideProps) {
-  const [state, setState] =
-    useState<IUserPurchasedCoursesSlideStateProps | null>(null);
+export function UserPurchasedCoursesSlide({ userId, client }: UserPurchasedCoursesSlideProps) {
+  const [state, setState] = useState<IUserPurchasedCoursesSlideStateProps | null>(null);
 
   useEffect(() => {
     if (!client || !userId) return;
@@ -34,9 +30,7 @@ export function UserPurchasedCoursesSlide({
     fetchUserPurchasedCourses({
       client,
       id: userId,
-    }).then((userPurchasedCourses) =>
-      setState((prev) => ({ ...prev, userPurchasedCourses }))
-    );
+    }).then((userPurchasedCourses) => setState((prev) => ({ ...prev, userPurchasedCourses })));
   }, [userId]);
 
   return (
@@ -49,15 +43,15 @@ export function UserPurchasedCoursesSlide({
           slidesPerView={3}
           spaceBetween={30}
           modules={[Navigation, Pagination]}
-          pagination={{ clickable: true, el: ".pagination" }}
+          pagination={{ clickable: true, el: '.pagination' }}
           navigation={{
-            prevEl: ".prev",
-            nextEl: ".next",
+            prevEl: '.prev',
+            nextEl: '.next',
           }}
         >
           {state?.userPurchasedCourses.map((course) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide key={course.id}>
                 <CourseCard key={course.id} course={course} />
               </SwiperSlide>
             );

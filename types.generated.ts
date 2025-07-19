@@ -16,6 +16,7 @@ export type Scalars = {
 
 export type Course = {
   description: Scalars['String']['output'];
+  duration: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   lessons: Array<Lesson>;
   name: Scalars['String']['output'];
@@ -42,7 +43,6 @@ export type Lesson = {
 export type Mutation = {
   createReview: Review;
   removeReview: Review;
-  removeUser: User;
   updateReview: Review;
 };
 
@@ -53,11 +53,6 @@ export type MutationCreateReviewArgs = {
 
 
 export type MutationRemoveReviewArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationRemoveUserArgs = {
   id: Scalars['Int']['input'];
 };
 
@@ -122,9 +117,11 @@ export type User = {
 
 export type CourseFieldsFragment = { id: number, name: string, description: string, thumbnail: string };
 
+export type UserFieldsFragment = { id: number, name: string };
+
 export type GetUserPurchasedCoursesQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GetUserPurchasedCoursesQuery = { user: { purchasedCourses: Array<{ id: number, name: string, description: string, thumbnail: string }> } };
+export type GetUserPurchasedCoursesQuery = { user: { purchasedCourses: Array<{ id: number, name: string, description: string, thumbnail: string, owner: { id: number, name: string } }> } };
