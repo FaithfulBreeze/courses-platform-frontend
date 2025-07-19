@@ -16,7 +16,7 @@ export type Scalars = {
 
 export type Course = {
   description: Scalars['String']['output'];
-  duration: Scalars['String']['output'];
+  duration: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   lessons: Array<Lesson>;
   owner: User;
@@ -34,7 +34,7 @@ export type CreateReviewInput = {
 export type Lesson = {
   course: Course;
   description: Scalars['String']['output'];
-  duration: Scalars['String']['output'];
+  duration: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   thumbnail: Scalars['String']['output'];
   title: Scalars['String']['output'];
@@ -107,7 +107,7 @@ export type UpdateReviewInput = {
 };
 
 export type User = {
-  avatar: Scalars['String']['output'];
+  avatar: Maybe<Scalars['String']['output']>;
   createdCourses: Array<Course>;
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
@@ -122,13 +122,6 @@ export type CourseFieldsFragment = { id: number, title: string, description: str
 export type LessonFieldsFragment = { id: number, url: string, thumbnail: string, title: string, description: string, duration: string };
 
 export type UserFieldsFragment = { id: number, name: string, email: string, avatar: string };
-
-export type GetCourseQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
-
-
-export type GetCourseQuery = { course: { id: number, title: string, description: string, thumbnail: string, duration: string, students: Array<{ id: number, name: string, email: string, avatar: string }>, lessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string }> } };
 
 export type GetUserPurchasedCoursesQueryVariables = Exact<{
   id: Scalars['Int']['input'];
