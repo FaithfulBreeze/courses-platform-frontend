@@ -14,7 +14,7 @@ export function CourseCard({ course, showProgress = false, progress = 0 }: ICour
         <div className="relative w-full h-full overflow-hidden">
           {/* Thumbnail */}
           <img
-            src={course?.thumbnail || '/placeholder-course.jpg'}
+            src={course?.thumbnail}
             alt={`Thumbnail for course ${course?.title}`}
             className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
           />
