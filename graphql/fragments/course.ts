@@ -7,5 +7,7 @@ export const CourseFragment = gql`
     description
     thumbnail
     duration
+    trailer
+    trailerDuration
   }
 `;

@@ -24,6 +24,8 @@ export type Course = {
   students: Array<User>;
   thumbnail: Scalars['String']['output'];
   title: Scalars['String']['output'];
+  trailer: Maybe<Scalars['String']['output']>;
+  trailerDuration: Maybe<Scalars['Int']['output']>;
 };
 
 export type CreateReviewInput = {
@@ -32,6 +34,7 @@ export type CreateReviewInput = {
 };
 
 export type Lesson = {
+  completedBy: Array<User>;
   course: Course;
   description: Scalars['String']['output'];
   duration: Maybe<Scalars['String']['output']>;
@@ -43,23 +46,11 @@ export type Lesson = {
 
 export type Mutation = {
   createReview: Review;
-  removeReview: Review;
-  updateReview: Review;
 };
 
 
 export type MutationCreateReviewArgs = {
   createReviewInput: CreateReviewInput;
-};
-
-
-export type MutationRemoveReviewArgs = {
-  id: Scalars['Int']['input'];
-};
-
-
-export type MutationUpdateReviewArgs = {
-  updateReviewInput: UpdateReviewInput;
 };
 
 export type Query = {
@@ -97,17 +88,13 @@ export type Review = {
   content: Scalars['String']['output'];
   course: Course;
   id: Scalars['Int']['output'];
+  rate: Scalars['Int']['output'];
   reviewer: User;
-};
-
-export type UpdateReviewInput = {
-  /** Example field (placeholder) */
-  exampleField: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['Int']['input'];
 };
 
 export type User = {
   avatar: Maybe<Scalars['String']['output']>;
+  completedLessons: Array<Lesson>;
   createdCourses: Array<Course>;
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
@@ -117,15 +104,31 @@ export type User = {
   reviews: Array<Review>;
 };
 
-export type CourseFieldsFragment = { id: number, title: string, description: string, thumbnail: string, duration: string };
+export type CourseFieldsFragment = { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number };
 
 export type LessonFieldsFragment = { id: number, url: string, thumbnail: string, title: string, description: string, duration: string };
 
+export type ReviewFieldsFragment = { id: number, content: string, rate: number };
+
 export type UserFieldsFragment = { id: number, name: string, email: string, avatar: string };
+
+export type GetCourseQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetCourseQuery = { course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number, students: Array<{ id: number, name: string, email: string, avatar: string, completedLessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string, course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number } }> }>, lessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string }>, owner: { id: number, name: string, email: string, avatar: string }, reviews: Array<{ id: number, content: string, rate: number, reviewer: { id: number, name: string, email: string, avatar: string } }> } };
 
 export type GetUserPurchasedCoursesQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GetUserPurchasedCoursesQuery = { user: { purchasedCourses: Array<{ id: number, title: string, description: string, thumbnail: string, duration: string, owner: { id: number, name: string, email: string, avatar: string } }> } };
+export type GetUserPurchasedCoursesQuery = { user: { purchasedCourses: Array<{ id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number, owner: { id: number, name: string, email: string, avatar: string } }> } };
+
+export type GetUserQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetUserQuery = { user: { id: number, name: string, email: string, avatar: string, completedLessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string, course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number } }> } };
