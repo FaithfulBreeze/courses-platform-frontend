@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { FormField, FormItem, FormControl, FormMessage, Form } from './ui/form';
 import { toast } from 'sonner';
 import { redirect } from 'next/navigation';
+import { BACKEND_URL } from '@/common/constants';
 
 const registerFormSchema = z.object({
   email: z.string().email(),
@@ -42,7 +43,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
 
   async function handleSubmit(data: z.infer<typeof registerFormSchema>) {
     setState((prev) => ({ ...prev, isLoading: true, body: data }));
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`, {
+    const response = await fetch(`${BACKEND_URL}/users`, {
       body: JSON.stringify(data),
       method: 'POST',
       credentials: 'include',

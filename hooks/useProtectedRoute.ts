@@ -1,10 +1,11 @@
+import { BACKEND_URL } from '@/common/constants';
 import { IAuthContext } from '@/contexts/AuthContext';
 import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
 
 export const useProtectedRoute = async (context: IAuthContext) => {
   if (!context.user.id) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/refresh`, {
+    const response = await fetch(`${BACKEND_URL}/auth/refresh`, {
       credentials: 'include',
     });
 
