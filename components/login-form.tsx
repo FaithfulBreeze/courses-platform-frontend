@@ -14,6 +14,7 @@ import { FormField, FormItem, FormControl, FormMessage, Form } from './ui/form';
 import { toast } from 'sonner';
 import { redirect } from 'next/navigation';
 import { AuthContext } from '@/contexts/AuthContext';
+import { BACKEND_URL } from '@/common/constants';
 
 const loginFormSchema = z.object({
   email: z.string().email(),
@@ -42,7 +43,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 
   async function handleSubmit(data: z.infer<typeof loginFormSchema>) {
     setState((prev) => ({ ...prev, isLoading: true, body: data }));
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
+    const response = await fetch(`${BACKEND_URL}/auth/login`, {
       body: JSON.stringify(data),
       method: 'POST',
       credentials: 'include',
