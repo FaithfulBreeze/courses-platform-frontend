@@ -1,5 +1,5 @@
 import { Course } from '@/types.generated';
-import { Card, CardDescription } from './card';
+import { Card, CardDescription } from './ui/card';
 
 interface ICourseCardProps {
   course: Course;
@@ -83,11 +83,11 @@ export function CourseCard({ course, showProgress = false, progress = 0 }: ICour
           </div>
         </div>
 
-        {!showProgress && (
+        {showProgress && (
           <div className="absolute bottom-0 left-0 w-full h-[4px] bg-gray-800/70 rounded-b-xl overflow-hidden shadow-inner z-30">
             <div
               className="h-full bg-blue-600 transition-all duration-300"
-              style={{ width: `${progress || 40}%` }}
+              style={{ width: `${progress}%` }}
             />
           </div>
         )}

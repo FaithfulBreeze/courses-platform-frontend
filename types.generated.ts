@@ -12,9 +12,11 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  DateTime: { input: string; output: string; }
 };
 
 export type Course = {
+  coursePurchases: Array<CoursePurchase>;
   description: Scalars['String']['output'];
   duration: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
@@ -26,6 +28,13 @@ export type Course = {
   title: Scalars['String']['output'];
   trailer: Maybe<Scalars['String']['output']>;
   trailerDuration: Maybe<Scalars['Int']['output']>;
+};
+
+export type CoursePurchase = {
+  course: Course;
+  id: Scalars['Int']['output'];
+  purchasedAt: Scalars['DateTime']['output'];
+  user: User;
 };
 
 export type CreateReviewInput = {
@@ -95,14 +104,23 @@ export type Review = {
 export type User = {
   avatar: Maybe<Scalars['String']['output']>;
   completedLessons: Array<Lesson>;
+  coursePurchases: Array<CoursePurchase>;
   createdCourses: Array<Course>;
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
+  lastCoursePurchases: Array<CoursePurchase>;
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   purchasedCourses: Array<Course>;
   reviews: Array<Review>;
 };
+
+
+export type UserLastCoursePurchasesArgs = {
+  limit: Scalars['Int']['input'];
+};
+
+export type CoursePurchaseFieldsFragment = { id: number, course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number }, user: { id: number, name: string, email: string, avatar: string } };
 
 export type CourseFieldsFragment = { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number };
 
@@ -119,12 +137,13 @@ export type GetCourseQueryVariables = Exact<{
 
 export type GetCourseQuery = { course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number, students: Array<{ id: number, name: string, email: string, avatar: string, completedLessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string, course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number } }> }>, lessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string }>, owner: { id: number, name: string, email: string, avatar: string }, reviews: Array<{ id: number, content: string, rate: number, reviewer: { id: number, name: string, email: string, avatar: string } }> } };
 
-export type GetUserPurchasedCoursesQueryVariables = Exact<{
+export type GetUserLastPurchasedCoursesQueryVariables = Exact<{
   id: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
 }>;
 
 
-export type GetUserPurchasedCoursesQuery = { user: { purchasedCourses: Array<{ id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number, owner: { id: number, name: string, email: string, avatar: string } }> } };
+export type GetUserLastPurchasedCoursesQuery = { user: { lastCoursePurchases: Array<{ id: number, course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number, lessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string }>, owner: { id: number, name: string, email: string, avatar: string } }, user: { id: number, name: string, email: string, avatar: string } }> } };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['Int']['input'];
