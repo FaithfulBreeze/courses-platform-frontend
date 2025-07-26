@@ -1,6 +1,6 @@
 'use client';
 
-import { UserPurchasedCoursesSlide } from '@/components/user-purchased-courses-slide';
+import { UserLastPurchasedCoursesSlide } from '@/components/user-last-purchased-courses-slide';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ClientContext } from '@/contexts/ClientContext';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
@@ -32,11 +32,11 @@ export default function Dashboard() {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Your Purchased Courses
+            Recently Purchased Courses
           </h3>
           <button className="text-sm text-blue-600 hover:underline">View all</button>
         </div>
-        <UserPurchasedCoursesSlide userId={authContext.user?.id} client={client} />
+        <UserLastPurchasedCoursesSlide userId={authContext.user?.id} client={client} />
       </section>
 
       {/* Course Feed Placeholder */}
