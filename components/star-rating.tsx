@@ -7,7 +7,7 @@ export default function StarRating({ rate }: { rate: number }) {
       aria-label={`Rating: ${rate} out of 5`}
     >
       {[...Array(5)].map((_, i) => (
-        <Star key={i} fill={i < rate ? 'currentColor' : 'none'} />
+        <Star className="w-3 sm:w-5 md:w-6" key={i} fill={i < rate ? 'currentColor' : 'none'} />
       ))}
     </div>
   );

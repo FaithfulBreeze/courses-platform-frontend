@@ -1,48 +1,57 @@
 import { Review } from '@/types.generated';
 import StarRating from './star-rating';
 
-interface IReviewList {
+interface IReviewListProps {
   reviews: Review[];
   heading?: string;
 }
 
-export default function ReviewList({ reviews, heading }: IReviewList) {
+export default function ReviewList({ reviews, heading }: IReviewListProps) {
   return (
-    <section className="space-y-6">
-      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-        {heading || 'Reviews'}
-      </h2>
+    <section className="space-y-5 sm:space-y-6">
+      {heading && (
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
+          {heading}
+        </h2>
+      )}
 
       {reviews?.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400">No reviews yet.</p>
+        <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">No reviews yet.</p>
       ) : (
-        <ul className="space-y-4">
+        <ul className="space-y-3 sm:space-y-4">
           {reviews.map((review) => (
             <li
               key={review.id}
-              className="p-5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow transition hover:shadow-md"
+              className="p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow hover:shadow-md transition"
             >
-              <div className="flex items-start gap-4">
-                {review.reviewer.avatar ? (
-                  <img
-                    src={review.reviewer.avatar}
-                    alt={`${review.reviewer.name}'s avatar`}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-700 dark:text-gray-200 text-sm font-semibold">
-                    {review.reviewer.name[0]}
-                  </div>
-                )}
+              <div className="grid grid-cols-[auto,1fr] gap-3 sm:flex sm:items-start sm:gap-4">
+                {/* Avatar */}
+                <div className="w-14 h-14 sm:w-12 sm:h-12">
+                  {review.reviewer.avatar ? (
+                    <img
+                      src={review.reviewer.avatar}
+                      alt={`${review.reviewer.name}'s avatar`}
+                      className="w-full h-full rounded-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-700 dark:text-gray-200 text-base sm:text-base font-semibold">
+                      {review.reviewer.name[0]}
+                    </div>
+                  )}
+                </div>
 
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <p className="font-medium text-gray-900 dark:text-white">
+                {/* Text Block */}
+                <div className="flex-1 flex flex-col justify-center">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-sm sm:text-base font-medium text-gray-900 dark:text-white">
                       {review.reviewer.name}
                     </p>
-                    <StarRating rate={review.rate} />
+                    <div className="mt-1 sm:mt-0">
+                      <StarRating rate={review.rate} />
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line mt-2">
+                  <p className="mt-2 text-sm sm:text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">
                     {review.content}
                   </p>
                 </div>
