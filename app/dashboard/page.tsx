@@ -22,7 +22,7 @@ export default function Dashboard() {
 
   return (
     <Container>
-      <SectionGroup spacing={12}>
+      <SectionGroup>
         <WelcomeBanner name={authContext.user.name || ''} />
 
         <SectionBlock
