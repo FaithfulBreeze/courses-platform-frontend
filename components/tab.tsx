@@ -5,11 +5,12 @@ interface ITabProps {
   activeTab: string;
   setActiveTab: Dispatch<SetStateAction<any>>;
   tabs: { key: string; label: string; icon: any }[];
+  classNames?: string;
 }
 
-export default function Tab({ activeTab, setActiveTab, tabs }: ITabProps) {
+export default function Tab({ activeTab, setActiveTab, tabs, classNames }: ITabProps) {
   return (
-    <div className="relative max-w-7xl mx-auto px-4 pt-6">
+    <div className={`relative max-w-7xl mx-auto px-4 pt-6 ${classNames}`}>
       <div className="flex gap-8 border-b border-gray-200 dark:border-gray-700 relative">
         {tabs.map(({ key, label, icon: Icon }) => {
           const isActive = activeTab === key;
