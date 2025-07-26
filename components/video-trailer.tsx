@@ -32,7 +32,9 @@ export default function CourseTrailer({ course, isPlaying, onPlay, onEnd }: Cour
   }, [isPlaying, course?.trailerDuration]);
 
   return (
-    <section className="relative rounded-xl overflow-hidden aspect-video w-full shadow-xl bg-black">
+    <section
+      className={`relative rounded-xl overflow-hidden aspect-video w-full shadow-xl ${!course?.thumbnail ? 'animate-pulse duration-[10s] bg-gray-200 dark:bg-gray-700' : ''}`}
+    >
       <AnimatePresence>
         {!isPlaying ? (
           <motion.div
@@ -45,8 +47,8 @@ export default function CourseTrailer({ course, isPlaying, onPlay, onEnd }: Cour
           >
             <img
               className="absolute inset-0 object-cover w-full h-full"
-              src={course?.thumbnail || '/fallback-thumbnail.jpg'}
-              alt={`Thumbnail for course: ${course?.title}`}
+              src={course?.thumbnail}
+              alt={course?.title ? `Thumbnail for course: ${course?.title}` : ''}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent" />
 
@@ -65,25 +67,27 @@ export default function CourseTrailer({ course, isPlaying, onPlay, onEnd }: Cour
               </div>
             )}
 
-            <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 md:px-8 pb-3 sm:pb-4">
-              <h1 className="text-base sm:text-xl md:text-2xl font-bold text-white drop-shadow-md leading-tight line-clamp-2">
-                {course?.title}
-              </h1>
-              <div className="mt-2 hidden sm:flex flex-wrap gap-y-1 gap-x-4 text-white/80 text-xs sm:text-sm">
-                <span className="flex items-center gap-1">
-                  <Clock size={14} /> {course?.duration || '0m'}
-                </span>
-                <span className="flex items-center gap-1">
-                  <User2 size={14} />
-                  <a
-                    href={`/user/${course?.owner?.id}`}
-                    className="hover:underline truncate max-w-[180px] sm:max-w-none"
-                  >
-                    {course?.owner?.name}
-                  </a>
-                </span>
+            {course && (
+              <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 md:px-8 pb-3 sm:pb-4">
+                <h1 className="text-base sm:text-xl md:text-2xl font-bold text-white drop-shadow-md leading-tight line-clamp-2">
+                  {course?.title}
+                </h1>
+                <div className="mt-2 hidden sm:flex flex-wrap gap-y-1 gap-x-4 text-white/80 text-xs sm:text-sm">
+                  <span className="flex items-center gap-1">
+                    <Clock size={14} /> {course?.duration || '0m'}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <User2 size={14} />
+                    <a
+                      href={`/user/${course?.owner?.id}`}
+                      className="hover:underline truncate max-w-[180px] sm:max-w-none"
+                    >
+                      {course?.owner?.name}
+                    </a>
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
           </motion.div>
         ) : (
           <motion.div

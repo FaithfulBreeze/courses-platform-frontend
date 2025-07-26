@@ -49,7 +49,7 @@ export function Carousel<T>({
                   {renderSkeleton ? (
                     renderSkeleton(i)
                   ) : (
-                    <div className="w-full h-64 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-xl" />
+                    <div className="w-full h-64 animate-pulse bg-gray-200 dark:bg-gray-700 rounded-xl aspect-video" />
                   )}
                 </SwiperSlide>
               ))
