@@ -82,7 +82,7 @@ export default function CoursePage({ params }: ICoursePageProps) {
         classNames="mt-12"
       />
       <Container className="py-10">
-        <SectionGroup spacing={16}>
+        <SectionGroup>
           {/* Video / Trailer Section */}
           <CourseTrailer
             course={course}
