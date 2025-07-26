@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ClientContext } from '@/contexts/ClientContext';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
@@ -11,8 +11,16 @@ import { SectionGroup } from '@/components/section-group';
 import { UserLastPurchasedCoursesSlide } from '@/components/user-last-purchased-courses-slide';
 import { PlaceholderPanel } from '@/components/placeholder-pannel';
 import { Container } from '@/components/container';
+import { fetchUser } from '@/repositories/fetchUser';
+import { User } from '@/types.generated';
+
+interface IDashboardStateProps {
+  user?: User;
+}
 
 export default function Dashboard() {
+  const [state, setState] = useState<IDashboardStateProps>({});
+
   const authContext = useContext(AuthContext);
   const { client } = useContext(ClientContext);
 
@@ -20,10 +28,21 @@ export default function Dashboard() {
     useProtectedRoute(authContext);
   }, []);
 
+  useEffect(() => {
+    if (!client || !authContext.user.id) return;
+
+    fetchUser({ client, id: authContext.user.id }).then((user) =>
+      setState((prev) => ({ ...prev, user })),
+    );
+  }, [authContext.user.id]);
+
   return (
     <Container>
       <SectionGroup>
-        <WelcomeBanner name={authContext.user.name || ''} />
+        <WelcomeBanner
+          name={state.user?.name || ''}
+          lastWatchedLesson={state.user?.lastWatchedLesson}
+        />
 
         <SectionBlock
           title="Recently Purchased Courses"

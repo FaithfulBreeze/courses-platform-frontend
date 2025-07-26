@@ -109,6 +109,7 @@ export type User = {
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   lastCoursePurchases: Array<CoursePurchase>;
+  lastWatchedLesson: Maybe<Lesson>;
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   purchasedCourses: Array<Course>;
@@ -150,4 +151,4 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { user: { id: number, name: string, email: string, avatar: string, completedLessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string, course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number } }> } };
+export type GetUserQuery = { user: { id: number, name: string, email: string, avatar: string, completedLessons: Array<{ id: number, url: string, thumbnail: string, title: string, description: string, duration: string, course: { id: number, title: string, description: string, thumbnail: string, duration: string, trailer: string, trailerDuration: number } }>, lastWatchedLesson: { id: number, url: string, thumbnail: string, title: string, description: string, duration: string } } };

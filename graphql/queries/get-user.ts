@@ -13,6 +13,9 @@ export const GET_USER = gql`
           ...CourseFields
         }
       }
+      lastWatchedLesson {
+        ...LessonFields
+      }
     }
   }
   ${LessonFragment}
