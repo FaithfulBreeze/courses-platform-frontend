@@ -62,8 +62,6 @@ export default function LessonList({ course, user, currentLesson }: ILessonListP
   return (
     <>
       <LessonProgressBar
-        user={user}
-        course={course}
         lessonsCount={course.lessonsCount}
         completedLessonsCount={state.completedLessons?.length || 0}
         canAccess={canAccess}
