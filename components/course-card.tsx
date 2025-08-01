@@ -1,5 +1,6 @@
 import { Course } from '@/types.generated';
 import { Card, CardDescription } from './ui/card';
+import { formatDuration } from '@/common/utils/formatDuration';
 
 interface ICourseCardProps {
   course: Course;
@@ -77,7 +78,7 @@ export function CourseCard({ course, showProgress = false, progress = 0 }: ICour
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 6v6l4 2" />
                 </svg>
-                <span>{course?.duration || '0m'}</span>
+                <span>{course?.duration ? formatDuration(course.duration) : '0m'}</span>
               </div>
             </div>
           </div>

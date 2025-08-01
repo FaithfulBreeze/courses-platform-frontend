@@ -1,64 +1,82 @@
-import { Review } from '@/types.generated';
-import StarRating from './star-rating';
+'use client';
+
+import { Course, Lesson, Review } from '@/types.generated';
+import { useContext, useEffect, useState } from 'react';
+import { ClientContext } from '@/contexts/ClientContext';
+import { fetchLessonReviews } from '@/repositories/fetchLessonReviews';
+import { fetchCourseReviews } from '@/repositories/fetchCourseReviews';
+import ReviewListItem from './review-list-item';
+import { PaginatedList } from './paginated-list';
 
 interface IReviewListProps {
-  reviews: Review[];
-  heading?: string;
+  lesson?: Lesson;
+  course?: Course;
 }
 
-export default function ReviewList({ reviews, heading }: IReviewListProps) {
+interface IReviewListStateProps {
+  reviews?: Review[];
+  totalCount?: number;
+}
+
+export default function ReviewList({ lesson, course }: IReviewListProps) {
+  const [page, setPage] = useState(1);
+  const [state, setState] = useState<IReviewListStateProps>({});
+  const { client } = useContext(ClientContext);
+
+  const REVIEWS_PER_PAGE = 5;
+
+  useEffect(() => {
+    if (!client) return;
+
+    const fetchReviews = async () => {
+      if (!course && lesson) {
+        const reviews = await fetchLessonReviews({
+          client,
+          id: lesson.id,
+          page,
+          limit: REVIEWS_PER_PAGE,
+        });
+        setState((prev) => ({ ...prev, reviews, totalCount: lesson.reviewsCount }));
+        return;
+      }
+
+      if (!lesson && course) {
+        const reviews = await fetchCourseReviews({
+          client,
+          id: course.id,
+          page,
+          limit: REVIEWS_PER_PAGE,
+        });
+        setState((prev) => ({ ...prev, reviews, totalCount: course.reviewsCount }));
+        return;
+      }
+    };
+
+    fetchReviews();
+  }, [client, course, lesson, page]);
+
+  const total = state.totalCount ?? 0;
+
   return (
     <section className="space-y-5 sm:space-y-6">
-      {heading && (
+      {(course || lesson) && (
         <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
-          {heading}
+          {course ? 'Course Reviews' : 'Lesson Reviews'}
         </h2>
       )}
 
-      {reviews?.length === 0 ? (
+      {total === 0 ? (
         <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">No reviews yet.</p>
       ) : (
-        <ul className="space-y-3 sm:space-y-4">
-          {reviews.map((review) => (
-            <li
-              key={review.id}
-              className="p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow hover:shadow-md transition"
-            >
-              <div className="grid grid-cols-[auto,1fr] gap-3 sm:flex sm:items-start sm:gap-4">
-                {/* Avatar */}
-                <div className="w-14 h-14 sm:w-12 sm:h-12">
-                  {review.reviewer.avatar ? (
-                    <img
-                      src={review.reviewer.avatar}
-                      alt={`${review.reviewer.name}'s avatar`}
-                      className="w-full h-full rounded-full object-cover"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-full h-full rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-700 dark:text-gray-200 text-base sm:text-base font-semibold">
-                      {review.reviewer.name[0]}
-                    </div>
-                  )}
-                </div>
-
-                {/* Text Block */}
-                <div className="flex-1 flex flex-col justify-center">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-sm sm:text-base font-medium text-gray-900 dark:text-white">
-                      {review.reviewer.name}
-                    </p>
-                    <div className="mt-1 sm:mt-0">
-                      <StarRating rate={review.rate} />
-                    </div>
-                  </div>
-                  <p className="mt-2 text-sm sm:text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">
-                    {review.content}
-                  </p>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <PaginatedList
+          items={state.reviews || []}
+          totalCount={total}
+          currentPage={page}
+          pageSize={REVIEWS_PER_PAGE}
+          onPageChange={setPage}
+          isLoading={!state.reviews}
+          renderItem={(review) => <ReviewListItem key={review.id} review={review} />}
+        />
       )}
     </section>
   );

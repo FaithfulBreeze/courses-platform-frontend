@@ -12,7 +12,6 @@ import { BookOpen, Star } from 'lucide-react';
 
 import GoBack from '@/components/go-back';
 import Tab from '@/components/tab';
-import LessonProgressBar from '@/components/lesson-progress-bar';
 import LessonList from '@/components/lesson-list';
 import ReviewList from '@/components/review-list';
 
@@ -93,17 +92,11 @@ export default function CoursePage({ params }: ICoursePageProps) {
 
           {/* Lessons */}
           {activeTab === 'lessons' && currentUser && course && (
-            <>
-              <LessonProgressBar user={currentUser} course={course} />
-
-              <LessonList user={currentUser} course={course} />
-            </>
+            <LessonList user={currentUser} course={course} />
           )}
 
           {/* Reviews */}
-          {activeTab === 'reviews' && course?.reviews && (
-            <ReviewList heading="Course Reviews" reviews={course.reviews} />
-          )}
+          {activeTab === 'reviews' && course?.reviews && <ReviewList course={course} />}
         </SectionGroup>
       </Container>
     </>
