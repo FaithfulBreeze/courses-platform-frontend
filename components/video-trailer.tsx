@@ -5,6 +5,7 @@ import { PlayCircle, Clock, User2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import VideoEmbed from '@/components/video-embed';
 import { Course } from '@/types.generated';
+import { formatDuration } from '@/common/utils/formatDuration';
 
 interface CourseTrailerProps {
   course?: Course;
@@ -74,7 +75,7 @@ export default function CourseTrailer({ course, isPlaying, onPlay, onEnd }: Cour
                 </h1>
                 <div className="mt-2 hidden sm:flex flex-wrap gap-y-1 gap-x-4 text-white/80 text-xs sm:text-sm">
                   <span className="flex items-center gap-1">
-                    <Clock size={14} /> {course?.duration || '0m'}
+                    <Clock size={14} /> {course?.duration ? formatDuration(course.duration) : '0m'}
                   </span>
                   <span className="flex items-center gap-1">
                     <User2 size={14} />
