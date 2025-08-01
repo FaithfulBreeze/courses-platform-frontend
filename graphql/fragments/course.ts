@@ -9,5 +9,7 @@ export const CourseFragment = gql`
     duration
     trailer
     trailerDuration
+    lessonsCount
+    reviewsCount
   }
 `;

@@ -8,5 +8,7 @@ export const LessonFragment = gql`
     title
     description
     duration
+    count
+    reviewsCount
   }
 `;
