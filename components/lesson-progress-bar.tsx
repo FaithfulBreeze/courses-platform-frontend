@@ -1,21 +1,19 @@
-import { Course, User } from '@/types.generated';
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
 
 interface ILessonProgressBar {
-  user: User;
-  course: Course;
+  lessonsCount: number;
+  completedLessonsCount: number;
+  canAccess: boolean;
 }
 
-export default function LessonProgressBar({ user, course }: ILessonProgressBar) {
-  const completedLessonsCount =
-    user.completedLessons.filter((lesson) => lesson?.course?.id == course?.id).length || 0;
-  const totalLessons = course?.lessons?.length || 0;
+export default function LessonProgressBar({
+  lessonsCount,
+  completedLessonsCount,
+  canAccess,
+}: ILessonProgressBar) {
   const progressPercent =
-    totalLessons === 0 ? 0 : Math.round((completedLessonsCount / totalLessons) * 100);
-  const isOwner = course?.owner.id === user?.id;
-  const isStudent = course?.students?.some((s) => s.id === user?.id);
-  const canAccess = isOwner || isStudent;
+    lessonsCount === 0 ? 0 : Math.round((completedLessonsCount / lessonsCount) * 100);
 
   return (
     canAccess && (
@@ -51,7 +49,7 @@ export default function LessonProgressBar({ user, course }: ILessonProgressBar) 
 
         <p className="mt-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
           <span className="font-medium text-gray-900 dark:text-white">{completedLessonsCount}</span>{' '}
-          of <span className="font-medium text-gray-900 dark:text-white">{totalLessons}</span>{' '}
+          of <span className="font-medium text-gray-900 dark:text-white">{lessonsCount}</span>{' '}
           lessons completed ({progressPercent}%)
         </p>
       </section>
