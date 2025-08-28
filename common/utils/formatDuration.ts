@@ -4,7 +4,7 @@ export function formatDuration(seconds: number) {
   const minutes = totalMinutes % 60;
 
   if (totalMinutes >= 60) {
-    return `${hours}h $${minutes}m`;
+    return `${hours}h ${minutes}m`;
   } else {
     return `${minutes}m`;
   }
