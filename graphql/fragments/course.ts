@@ -8,6 +8,7 @@ export const CourseFragment = gql`
     thumbnail
     duration
     trailer
+    price
     trailerDuration
     lessonsCount
     reviewsCount
