@@ -5,11 +5,13 @@ import { useContext, useEffect, useState } from 'react';
 import { fetchCourseLessons } from '@/repositories/fetchCourseLessons';
 import { fetchUserCourseCompletedLessons } from '@/repositories/fetchUserCourseCompletedLessons';
 import { ClientContext } from '@/contexts/ClientContext';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Lock } from 'lucide-react';
 import LessonProgressBar from './lesson-progress-bar';
 import LessonListItem from './lesson-list-item';
 import { PaginatedList } from './paginated-list';
+import { Button } from './ui/button';
+import { formatPrice } from '@/common/utils/formatPrice';
+import { redirect } from 'next/navigation';
 
 interface ILessonListProps {
   user: User;
@@ -68,14 +70,16 @@ export default function LessonList({ course, user, currentLesson }: ILessonListP
       />
       <section className="relative space-y-4 sm:space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
+          {canAccess ? <div>
             <h2 className="text-sm sm:text-2xl font-semibold text-gray-900 dark:text-white">
               Course Lessons
             </h2>
             <p className="text-xs sm:text-sm text-gray-500">
               {course.lessonsCount} lesson{course.lessonsCount !== 1 ? 's' : ''}
             </p>
-          </div>
+          </div> : <Button onClick={() => {
+            redirect(`/checkout/${course.id}`)
+          }} variant='default' className='w-full py-6 text-sm sm:text-base cursor-pointer'>Purchase by {formatPrice(course.price)}</Button>}
 
           {isOwner && (
             <button
@@ -87,23 +91,7 @@ export default function LessonList({ course, user, currentLesson }: ILessonListP
           )}
         </div>
 
-        <AnimatePresence>
-          {!canAccess && (
-            <motion.div
-              className="absolute inset-0 z-10 flex items-center justify-center bg-white/70 dark:bg-black/40 backdrop-blur-md rounded-lg"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <div className="flex flex-col items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
-                <Lock size={32} />
-                <p className="text-center font-medium">Purchase or enroll to access lessons</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <PaginatedList
+        {canAccess ? <PaginatedList
           items={state.lessons || []}
           totalCount={course.lessonsCount}
           currentPage={page}
@@ -119,7 +107,15 @@ export default function LessonList({ course, user, currentLesson }: ILessonListP
               isOwner={isOwner}
             />
           )}
-        />
+        /> : (
+          <div className="flex flex-col items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
+            <Lock size={32} />
+            <p className="text-center font-medium">Purchase or enroll to access lessons</p>
+          </div>
+        )}
+
+
+
       </section>
     </>
   );
