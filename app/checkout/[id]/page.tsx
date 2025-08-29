@@ -61,7 +61,6 @@ export default function Checkout({ params }: ICheckoutPageProps) {
 
   // Função chamada pelo CardPayment no submit (token + dados)
   const handleSubmit = async (formData: any) => {
-    console.log(formData)
     if (!course || !user) {
       toast.error('Informações incompletas para processar o pagamento.');
       return;
@@ -77,6 +76,8 @@ export default function Checkout({ params }: ICheckoutPageProps) {
           paymentMethodId: formData.payment_method_id,
           installments: formData.installments,
           issuerId: formData.issuer_id,
+          payerEmail: formData.payer.email,
+          cpf: formData.payer.identification.number
         }),
       });
 
